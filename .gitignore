@@ -1,0 +1,19 @@
+node_modules
+dist
+dist-ssr
+*.local
+package-lock.json
+# Ignore all .env files in any folder
+*.env
+
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

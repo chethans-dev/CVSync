@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.mk-ai p {
+  margin-top: 25px;
+}
+
+ul li {
+  list-style: disc;
+  margin-left: 25px;
+}
+
