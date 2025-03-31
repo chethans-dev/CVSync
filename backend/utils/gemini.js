@@ -5,7 +5,7 @@ config({ path: "backend/config/config.env" });
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 // Function to analyze resume using Gemini AI
-export const analyzeResumeWithGemini = async (resumeText, jobDescription) => {
+export const analyzeResumeWithGemini = async (resumeText, jobDescription, location) => {
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -15,7 +15,7 @@ export const analyzeResumeWithGemini = async (resumeText, jobDescription) => {
         🎯 **Resume Analysis Report** 🎯
   
         📌 **Job Roles:** Suggest the best job roles based on the resume.  
-        💰 **Expected Salary:** Provide an estimated salary range.  
+        💰 **Expected Salary:** Provide an estimated salary range${location ? ` in ${location} location` : "."}.  
         🔍 **Areas of Improvement:** Highlight resume weaknesses & tips to improve.  
         🛠 **Required Skills:** List the essential skills for these job roles.  
         🌍 **Industry Trends:** Mention key trends relevant to the candidate's field.  

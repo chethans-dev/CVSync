@@ -7,7 +7,7 @@ config({ path: "backend/config/config.env" });
 const ADZUNA_API_ID = process.env.ADZUNA_API_ID;
 const ADZUNA_API_KEY = process.env.ADZUNA_API_KEY;
 
-export const scrapeLinkedIn = async (jobRoles = []) => {
+export const scrapeLinkedIn = async (jobRoles = [], location = "") => {
   if (!jobRoles.length) return [];
 
   let allJobs = [];
@@ -16,7 +16,7 @@ export const scrapeLinkedIn = async (jobRoles = []) => {
     try {
       const url = `https://www.linkedin.com/jobs/search?keywords=${encodeURIComponent(
         role
-      )}&f_TPR=r86400`;
+      )}&location=${location}&f_TPR=r86400`;
       // console.log(`Fetching jobs for: ${role}`);
 
       const { data } = await axios.get(url, {

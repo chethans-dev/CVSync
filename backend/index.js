@@ -36,7 +36,7 @@ app.post("/upload", upload.single("resume"), async (req, res) => {
 
   const filePath = req.file.path;
   const fileType = req.file.mimetype;
-  const { jobDescription } = req.body;
+  const { jobDescription, state } = req.body;
   const timings = {};
 
   try {
@@ -49,7 +49,7 @@ app.post("/upload", upload.single("resume"), async (req, res) => {
 
     // Send extracted text to Gemini AI for analysis
     const aiAnalysisStart = Date.now();
-    let aiAnalysis = await analyzeResumeWithGemini(text, jobDescription);
+    let aiAnalysis = await analyzeResumeWithGemini(text, jobDescription, state);
     timings.aiAnalysisTime = Date.now() - aiAnalysisStart;
 
     // Extract suggested job roles from AI analysis
@@ -71,7 +71,7 @@ app.post("/upload", upload.single("resume"), async (req, res) => {
     // Fetch real-time jobs for the first suggested role
     const jobRoles = jobRolesJSON?.jobRoles || [];
     // const realTimeJobs = await fetchRealTimeJobs(jobRoles);
-    const realTimeJobs = await scrapeLinkedIn(jobRoles);
+    const realTimeJobs = await scrapeLinkedIn(jobRoles, state);
     timings.jobScrapingTime = Date.now() - jobScrapingStart;
 
     timings.totalProcessingTime = Date.now() - totalStart;

@@ -1,17 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { motion } from "framer-motion";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { Spinner } from "@material-tailwind/react";
 import axios from "axios";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const GEO_API = import.meta.env.VITE_GEO_API;
 
 const ResumeUpload = ({ onResponse }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [jobDescription, setJobDescription] = useState(""); // Job description state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [state, setState] = useState("");
+
+  const fetchGeoDetails = async () => {
+    try {
+      const response = await axios.get("https://ipinfo.io/json?token=dcdc6e84ebbdd9");
+      setState(response?.data?.region || "");
+    } catch (error) {
+      console.error("Error fetching geo details:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchGeoDetails();
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: ".pdf, .docx, .txt",
@@ -26,21 +40,22 @@ const ResumeUpload = ({ onResponse }) => {
       setError("Please upload a resume.");
       return;
     }
-  
+
     setLoading(true);
     setError("");
-  
+
     const formData = new FormData();
     formData.append("resume", selectedFile);
     formData.append("jobDescription", jobDescription); // Include job description
-  
+    formData.append("state", state); // Include state
+
     try {
       const response = await axios.post(`/upload`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-  
+
       onResponse(response.data); // Pass API response to parent
-  
+
       // ✅ Clear state after successful upload
       setSelectedFile(null);
       setJobDescription("");
@@ -49,10 +64,9 @@ const ResumeUpload = ({ onResponse }) => {
       setError("Failed to analyze resume. Try again.");
       console.error("Upload Error:", err);
     }
-  
+
     setLoading(false);
   };
-  
 
   return (
     <motion.div
