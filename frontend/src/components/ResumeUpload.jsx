@@ -91,7 +91,7 @@ const ResumeUpload = ({ onResponse }) => {
         placeholder="Enter job description to compare it with your resume (optional)"
         value={jobDescription}
         onChange={(e) => setJobDescription(e.target.value)}
-        className="w-full border border-gray-300 p-3 rounded-lg mt-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
+        className="min-h-28 w-full border border-gray-300 p-3 rounded-lg mt-4 focus:outline-none focus:ring-2 focus:ring-pink-400"
         rows="4"
       />
 
