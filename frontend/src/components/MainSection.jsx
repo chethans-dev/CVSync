@@ -8,7 +8,7 @@ const MainSection = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1 p-6">
       {/* Left Panel - Upload Section */}
-      <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col h-[86vh]">
+      <div className="bg-white p-6 rounded-lg shadow-lg flex flex-col h-[86vh] overflow-y-auto">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">
           Upload Your Resume
         </h2>
